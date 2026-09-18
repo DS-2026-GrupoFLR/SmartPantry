@@ -38,33 +38,39 @@ Cadena de conexión local utilizada por el grupo (autenticación integrada de Wi
 ## Puesta en marcha
 
 1. Restaurar dependencias del backend (o abrir `SmartPantry.slnx` en Visual Studio y compilar con Build Solution):
-```bash
+   ```bash
    dotnet restore .\SmartPantry.slnx
-```
-2. Instalar dependencias del frontend:
-```bash
+   ```
+2. Instalar dependencias del frontend (requiere ABP CLI instalado: `dotnet tool install -g Volo.Abp.Cli`):
+   ```bash
    abp install-libs
-```
+   ```
 3. Ejecutar el DbMigrator para crear la base de datos y aplicar las migraciones iniciales (crea las tablas base de ABP: usuarios, roles, permisos, auditoría):
-```bash
+   ```bash
    dotnet run --project .\src\SmartPantry.DbMigrator
-```
-4. Levantar el backend:
-```bash
+   ```
+4. Levantar el backend (en Visual Studio: establecer `SmartPantry.HttpApi.Host` como proyecto de inicio y ejecutar con F5, o por consola):
+   ```bash
    dotnet run --project .\src\SmartPantry.HttpApi.Host
-```
+   ```
 5. Levantar el frontend Angular:
-```bash
+   ```bash
    cd angular
    yarn start
-```
+   ```
 
 ### URLs locales
 
-* Backend (HttpApi.Host): `https://localhost:<puerto>` *(completar con el puerto real del grupo)*
+* Backend (HttpApi.Host): `https://localhost:44387`
 * Frontend (Angular): `http://localhost:4200`
 
-Para detener cada proceso, `Ctrl+C` en la terminal correspondiente o cerrar la ejecución desde Visual Studio (Shift+F5).
+La interfaz Angular se ejecuta en el navegador y consume el backend mediante HTTP; no accede a la base de datos directamente.
+
+### Cómo detener cada proceso
+
+* **Backend**: si se corrió desde Visual Studio, apretar `Shift+F5` o cerrar la ventana de consola de depuración. Si se corrió por terminal, `Ctrl+C` en esa consola.
+* **Frontend (Angular)**: en la terminal donde corre `yarn start`, apretar `Ctrl+C` y confirmar con `S` (o `Y`) si lo pide.
+* **DbMigrator**: es un proceso de un solo uso (corre, migra, y termina solo) — no requiere detenerse manualmente.
 
 ## Verificación
 
