@@ -1,0 +1,7 @@
+.github/workflows/desktop.ini
+.github/ISSUE_TEMPLATE/desktop.ini
+.github/desktop.ini
+.vs/
+bin/
+obj/
+node_modules/
