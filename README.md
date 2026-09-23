@@ -1,6 +1,11 @@
 # SmartPantry
 
-Este es el repositorio del grupo.
+Repositorio del Trabajo Práctico Integrador de Desarrollo de Software 2026 (DS-2026-GrupoFLR).
+
+## Integrantes
+
+- Fiorotto Emir, Lescano Joaquín, Ramos Jeremías
+- @Chirafon @JoaquinLescano @rmssjere
 
 ## Sobre esta solución
 
@@ -41,19 +46,25 @@ Cadena de conexión local utilizada por el grupo (autenticación integrada de Wi
    ```bash
    dotnet restore .\SmartPantry.slnx
    ```
-2. Instalar dependencias del frontend (requiere ABP CLI instalado: `dotnet tool install -g Volo.Abp.Cli`):
+2. Instalar las librerías cliente requeridas por ABP (requiere ABP CLI instalado: `dotnet tool install -g Volo.Abp.Cli`):
    ```bash
    abp install-libs
    ```
-3. Ejecutar el DbMigrator para crear la base de datos y aplicar las migraciones iniciales (crea las tablas base de ABP: usuarios, roles, permisos, auditoría):
+3. Instalar las dependencias del proyecto Angular:
+   ```bash
+   cd angular
+   yarn install
+   cd ..
+   ```
+4. Ejecutar el DbMigrator para crear la base de datos y aplicar las migraciones iniciales (crea las tablas base de ABP: usuarios, roles, permisos, auditoría):
    ```bash
    dotnet run --project .\src\SmartPantry.DbMigrator
    ```
-4. Levantar el backend (en Visual Studio: establecer `SmartPantry.HttpApi.Host` como proyecto de inicio y ejecutar con F5, o por consola):
+5. Levantar el backend (en Visual Studio: establecer `SmartPantry.HttpApi.Host` como proyecto de inicio y ejecutar con F5, o por consola):
    ```bash
    dotnet run --project .\src\SmartPantry.HttpApi.Host
    ```
-5. Levantar el frontend Angular:
+6. Levantar el frontend Angular:
    ```bash
    cd angular
    yarn start
@@ -74,18 +85,22 @@ La interfaz Angular se ejecuta en el navegador y consume el backend mediante HTT
 
 ## Verificación
 
-Comandos ejecutados correctamente por el grupo:
+Comandos ejecutados correctamente por el grupo (los mismos que corre el workflow de CI en `.github/workflows/ci.yml`):
 
 ```bash
-dotnet build .\SmartPantry.slnx --configuration Debug
-dotnet test .\SmartPantry.slnx
+dotnet build .\SmartPantry.slnx --configuration Release
+dotnet test .\SmartPantry.slnx --configuration Release --filter "FullyQualifiedName!~EfCoreBookAppService_Tests&FullyQualifiedName!~BookAppService_Tests"
 ```
+
+> Se excluyen los tests `EfCoreBookAppService_Tests` y `BookAppService_Tests`: pertenecen a las entidades de ejemplo `Book`/`Author` que trae la plantilla ABP por defecto y no forman parte del dominio de SmartPantry.
 
 ```bash
 cd angular
 yarn build
-yarn test --watch=false --browsers=ChromeHeadless
+yarn test --watch=false
 ```
+
+> El proyecto Angular generado no incluye archivos `*.spec.ts` todavía, por lo que este paso puede no ejecutar tests hasta que se agreguen en TPs posteriores.
 
 ## Estructura de la solución
 
