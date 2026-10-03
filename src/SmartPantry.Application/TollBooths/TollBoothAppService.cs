@@ -1,10 +1,11 @@
 using System;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 
-namespace <Proyecto>.TollBooths;
+namespace SmartPantry.TollBooths;
 
-public class TollBoothAppService : <Proyecto>AppService, ITollBoothAppService
+public class TollBoothAppService : ApplicationService, ITollBoothAppService
 {
     private readonly IRepository<TollBooth, Guid> _tollBoothRepository;
 
@@ -16,14 +17,7 @@ public class TollBoothAppService : <Proyecto>AppService, ITollBoothAppService
     public async Task<TollBoothDto> GetAsync(Guid id)
     {
         var tollBooth = await _tollBoothRepository.GetAsync(id);
-
-        return new TollBoothDto
-        {
-            Id = tollBooth.Id,
-            Code = tollBooth.Code,
-            Name = tollBooth.Name,
-            BaseRate = tollBooth.BaseRate
-        };
+        return ObjectMapper.Map<TollBooth, TollBoothDto>(tollBooth);
     }
 
     public async Task<TollBoothDto> CreateAsync(CreateTollBoothDto input)
@@ -36,13 +30,6 @@ public class TollBoothAppService : <Proyecto>AppService, ITollBoothAppService
         );
 
         await _tollBoothRepository.InsertAsync(tollBooth);
-
-        return new TollBoothDto
-        {
-            Id = tollBooth.Id,
-            Code = tollBooth.Code,
-            Name = tollBooth.Name,
-            BaseRate = tollBooth.BaseRate
-        };
+        return ObjectMapper.Map<TollBooth, TollBoothDto>(tollBooth);
     }
 }

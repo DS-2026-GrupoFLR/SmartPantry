@@ -13,7 +13,7 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
-using SmartPantry.TollBooths; 
+using SmartPantry.TollBooths;
 
 namespace SmartPantry.EntityFrameworkCore;
 
@@ -46,8 +46,8 @@ public class SmartPantryDbContext :
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-
         base.OnModelCreating(builder);
+
         builder.ConfigurePermissionManagement();
         builder.ConfigureSettingManagement();
         builder.ConfigureBackgroundJobs();
@@ -56,7 +56,6 @@ public class SmartPantryDbContext :
         builder.ConfigureOpenIddict();
         builder.ConfigureFeatureManagement();
         builder.ConfigureTenantManagement();
-
 
         builder.Entity<TollBooth>(b =>
         {
