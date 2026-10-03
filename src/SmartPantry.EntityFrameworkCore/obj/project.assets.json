@@ -9071,18 +9071,17 @@
     },
     "SmartPantry.Domain/1.0.0": {
       "type": "project",
-      "path": "../../../../../Escritorio/Tercero/Segundo cuatrimestre/Desarrollo de Software/ABP/SmartPantry/src/SmartPantry.Domain/SmartPantry.Domain.csproj",
-      "msbuildProject": "../../../../../Escritorio/Tercero/Segundo cuatrimestre/Desarrollo de Software/ABP/SmartPantry/src/SmartPantry.Domain/SmartPantry.Domain.csproj"
+      "path": "../SmartPantry.Domain/SmartPantry.Domain.csproj",
+      "msbuildProject": "../SmartPantry.Domain/SmartPantry.Domain.csproj"
     },
     "SmartPantry.Domain.Shared/1.0.0": {
       "type": "project",
-      "path": "../../../../../Escritorio/Tercero/Segundo cuatrimestre/Desarrollo de Software/ABP/SmartPantry/src/SmartPantry.Domain.Shared/SmartPantry.Domain.Shared.csproj",
-      "msbuildProject": "../../../../../Escritorio/Tercero/Segundo cuatrimestre/Desarrollo de Software/ABP/SmartPantry/src/SmartPantry.Domain.Shared/SmartPantry.Domain.Shared.csproj"
+      "path": "../SmartPantry.Domain.Shared/SmartPantry.Domain.Shared.csproj",
+      "msbuildProject": "../SmartPantry.Domain.Shared/SmartPantry.Domain.Shared.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
-      "C:\\Users\\lesca\\OneDrive\\Documentos\\GitHub\\SmartPantry\\src\\SmartPantry.Domain\\SmartPantry.Domain.csproj",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.9",
       "Microsoft.EntityFrameworkCore.Tools >= 10.0.9",
       "SmartPantry.Domain >= 1.0.0",
@@ -9115,7 +9114,7 @@
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\lesca\\OneDrive\\Escritorio\\Tercero\\Segundo cuatrimestre\\Desarrollo de Software\\ABP\\SmartPantry\\NuGet.Config",
+        "C:\\Users\\lesca\\OneDrive\\Documentos\\GitHub\\SmartPantry\\NuGet.Config",
         "C:\\Users\\lesca\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -9134,9 +9133,6 @@
           "projectReferences": {
             "C:\\Users\\lesca\\OneDrive\\Documentos\\GitHub\\SmartPantry\\src\\SmartPantry.Domain\\SmartPantry.Domain.csproj": {
               "projectPath": "C:\\Users\\lesca\\OneDrive\\Documentos\\GitHub\\SmartPantry\\src\\SmartPantry.Domain\\SmartPantry.Domain.csproj"
-            },
-            "C:\\Users\\lesca\\OneDrive\\Escritorio\\Tercero\\Segundo cuatrimestre\\Desarrollo de Software\\ABP\\SmartPantry\\src\\SmartPantry.Domain\\SmartPantry.Domain.csproj": {
-              "projectPath": "C:\\Users\\lesca\\OneDrive\\Escritorio\\Tercero\\Segundo cuatrimestre\\Desarrollo de Software\\ABP\\SmartPantry\\src\\SmartPantry.Domain\\SmartPantry.Domain.csproj"
             }
           }
         }
@@ -9147,7 +9143,7 @@
         ]
       },
       "restoreAuditProperties": {
-        "enableAudit": "true",
+        "enableAudit": "false",
         "auditLevel": "low",
         "auditMode": "all"
       },
@@ -9504,16 +9500,5 @@
         }
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1104",
-      "level": "Error",
-      "message": "No se encuentra el proyecto \"C:\\Users\\lesca\\OneDrive\\Documentos\\GitHub\\SmartPantry\\src\\SmartPantry.Domain\\SmartPantry.Domain.csproj\". Compruebe que la referencia al proyecto sea válida y que exista el archivo de proyecto.",
-      "libraryId": "C:\\Users\\lesca\\OneDrive\\Documentos\\GitHub\\SmartPantry\\src\\SmartPantry.Domain\\SmartPantry.Domain.csproj",
-      "targetGraphs": [
-        "net10.0"
-      ]
-    }
-  ]
+  }
 }

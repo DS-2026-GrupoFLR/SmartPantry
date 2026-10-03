@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "dgSpecHash": "DlCmLFarS1g=",
-  "success": false,
+  "dgSpecHash": "6XOiSteleP4=",
+  "success": true,
   "projectFilePath": "C:\\Users\\lesca\\OneDrive\\Documentos\\GitHub\\SmartPantry\\src\\SmartPantry.EntityFrameworkCore\\SmartPantry.EntityFrameworkCore.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lesca\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
@@ -178,17 +178,5 @@
     "C:\\Users\\lesca\\.nuget\\packages\\volo.abp.validation.abstractions\\10.6.0\\volo.abp.validation.abstractions.10.6.0.nupkg.sha512",
     "C:\\Users\\lesca\\.nuget\\packages\\volo.abp.virtualfilesystem\\10.6.0\\volo.abp.virtualfilesystem.10.6.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1104",
-      "level": "Error",
-      "message": "No se encuentra el proyecto \"C:\\Users\\lesca\\OneDrive\\Documentos\\GitHub\\SmartPantry\\src\\SmartPantry.Domain\\SmartPantry.Domain.csproj\". Compruebe que la referencia al proyecto sea válida y que exista el archivo de proyecto.",
-      "projectPath": "C:\\Users\\lesca\\OneDrive\\Documentos\\GitHub\\SmartPantry\\src\\SmartPantry.EntityFrameworkCore\\SmartPantry.EntityFrameworkCore.csproj",
-      "filePath": "C:\\Users\\lesca\\OneDrive\\Documentos\\GitHub\\SmartPantry\\src\\SmartPantry.EntityFrameworkCore\\SmartPantry.EntityFrameworkCore.csproj",
-      "libraryId": "C:\\Users\\lesca\\OneDrive\\Documentos\\GitHub\\SmartPantry\\src\\SmartPantry.Domain\\SmartPantry.Domain.csproj",
-      "targetGraphs": [
-        "net10.0"
-      ]
-    }
-  ]
+  "logs": []
 }
