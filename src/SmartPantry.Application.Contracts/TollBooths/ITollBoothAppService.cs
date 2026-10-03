@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 
-namespace <Proyecto>.TollBooths;
+namespace SmartPantry.TollBooths;
 
 public interface ITollBoothAppService : IApplicationService
 {

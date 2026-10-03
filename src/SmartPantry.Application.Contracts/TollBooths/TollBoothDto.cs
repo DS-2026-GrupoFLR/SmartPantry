@@ -1,7 +1,7 @@
 using System;
 using Volo.Abp.Application.Dtos;
 
-namespace <Proyecto>.TollBooths;
+namespace SmartPantry.TollBooths;
 
 public class TollBoothDto : EntityDto<Guid>
 {

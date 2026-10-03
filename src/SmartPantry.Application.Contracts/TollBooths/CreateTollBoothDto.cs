@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace <Proyecto>.TollBooths;
+namespace SmartPantry.TollBooths;
 
 public class CreateTollBoothDto
 {
