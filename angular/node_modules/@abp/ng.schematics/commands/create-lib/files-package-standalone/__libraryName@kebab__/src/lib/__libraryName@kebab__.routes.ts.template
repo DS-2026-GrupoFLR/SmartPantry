@@ -1,9 +1,0 @@
-import { Routes } from '@angular/router';
-
-export const <%= macro(libraryName) %>_ROUTES: Routes = [
-  {
-    path: '',
-    loadComponent: () =>
-      import('./<%= kebab(libraryName) %>.component').then(m => m.<%= pascal(libraryName) %>Component),
-  },
-];
