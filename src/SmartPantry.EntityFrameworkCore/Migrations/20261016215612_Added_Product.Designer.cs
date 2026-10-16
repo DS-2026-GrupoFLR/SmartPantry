@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace SmartPantry.Migrations
 {
     [DbContext(typeof(SmartPantryDbContext))]
-    [Migration("20261009214800_Added_TollBooth")]
-    partial class Added_TollBooth
+    [Migration("20261016215612_Added_Product")]
+    partial class Added_Product
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -148,18 +148,19 @@ namespace SmartPantry.Migrations
                     b.ToTable("AppBooks", (string)null);
                 });
 
-            modelBuilder.Entity("SmartPantry.TollBooths.TollBooth", b =>
+            modelBuilder.Entity("SmartPantry.Products.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("BaseRate")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Code")
+                    b.Property<string>("BarCode")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Brand")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -208,9 +209,20 @@ namespace SmartPantry.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
+                    b.Property<int?>("NovaGroup")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NutriScore")
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("AppTollBooths", (string)null);
+                    b.HasIndex("BarCode")
+                        .IsUnique()
+                        .HasFilter("[IsDeleted] = 0");
+
+                    b.ToTable("AppProducts", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

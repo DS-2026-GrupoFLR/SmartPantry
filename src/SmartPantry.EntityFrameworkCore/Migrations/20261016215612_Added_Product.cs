@@ -6,19 +6,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SmartPantry.Migrations
 {
     /// <inheritdoc />
-    public partial class Added_TollBooth : Migration
+    public partial class Added_Product : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AppTollBooths",
+                name: "AppProducts",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    BarCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    BaseRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Brand = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    NutriScore = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: true),
+                    NovaGroup = table.Column<int>(type: "int", nullable: true),
                     ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -31,15 +33,22 @@ namespace SmartPantry.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppTollBooths", x => x.Id);
+                    table.PrimaryKey("PK_AppProducts", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppProducts_BarCode",
+                table: "AppProducts",
+                column: "BarCode",
+                unique: true,
+                filter: "[IsDeleted] = 0");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AppTollBooths");
+                name: "AppProducts");
         }
     }
 }

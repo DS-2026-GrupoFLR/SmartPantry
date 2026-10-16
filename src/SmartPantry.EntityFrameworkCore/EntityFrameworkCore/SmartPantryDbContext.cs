@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SmartPantry.Authors;
 using SmartPantry.Books;
-using SmartPantry.TollBooths;
+using SmartPantry.Products;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
@@ -32,7 +32,7 @@ public class SmartPantryDbContext :
 
     public DbSet<Author> Authors { get; set; }
     public DbSet<Book> Books { get; set; }
-    public DbSet<TollBooth> TollBooths { get; set; }
+    public DbSet<Product> Products { get; set; }
 
     #region Entities from the modules
 
@@ -92,13 +92,17 @@ public class SmartPantryDbContext :
             b.HasOne<Author>().WithMany().HasForeignKey(x => x.AuthorId).IsRequired();
         });
 
-        builder.Entity<TollBooth>(b =>
+        builder.Entity<Product>(b =>
         {
-            b.ToTable(SmartPantryConsts.DbTablePrefix + "TollBooths", SmartPantryConsts.DbSchema);
+            b.ToTable(SmartPantryConsts.DbTablePrefix + "Products", SmartPantryConsts.DbSchema);
             b.ConfigureByConvention();
-            b.Property(x => x.Code).IsRequired().HasMaxLength(64);
-            b.Property(x => x.Name).IsRequired().HasMaxLength(128);
-            b.Property(x => x.BaseRate).HasColumnType("decimal(18,2)");
+            b.Property(x => x.BarCode).IsRequired().HasMaxLength(ProductConsts.MaxBarCodeLength);
+            b.Property(x => x.Name).IsRequired().HasMaxLength(ProductConsts.MaxNameLength);
+            b.Property(x => x.Brand).HasMaxLength(ProductConsts.MaxBrandLength);
+            b.Property(x => x.NutriScore).HasMaxLength(1);
+
+            // RF-08: no puede haber dos productos vigentes con el mismo código de barras.
+            b.HasIndex(x => x.BarCode).IsUnique().HasFilter("[IsDeleted] = 0");
         });
     }
 }
