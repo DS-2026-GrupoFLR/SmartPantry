@@ -203,8 +203,8 @@ public abstract class ProductAppService_Tests<TStartupModule> : SmartPantryAppli
             NovaGroup = 1
         });
 
-        // Nombre válido + NutriScore inválido: el dominio rechaza y no debe quedar un cambio parcial.
-        await Assert.ThrowsAnyAsync<ArgumentException>(async () =>
+        // Nombre válido + NutriScore inválido: la entrada se rechaza y no debe quedar un cambio parcial.
+        var exception = await Assert.ThrowsAsync<AbpValidationException>(async () =>
         {
             await _productAppService.UpdateAsync(created.Id, new UpdateProductDto
             {
@@ -215,11 +215,31 @@ public abstract class ProductAppService_Tests<TStartupModule> : SmartPantryAppli
             });
         });
 
+        exception.ValidationErrors
+            .ShouldContain(err => err.MemberNames.Any(m => m == nameof(UpdateProductDto.NutriScore)));
+
         var found = await _productAppService.GetAsync(created.Id);
         found.Name.ShouldBe("Original");
         found.Brand.ShouldBe("Marca");
         found.NutriScore.ShouldBe("A");
         found.NovaGroup.ShouldBe(1);
+    }
+
+    [Fact]
+    public async Task Should_Not_Create_A_Product_With_Invalid_NutriScore()
+    {
+        var exception = await Assert.ThrowsAsync<AbpValidationException>(async () =>
+        {
+            await _productAppService.CreateAsync(new CreateProductDto
+            {
+                BarCode = "8000000000099",
+                Name = "Producto",
+                NutriScore = "S"
+            });
+        });
+
+        exception.ValidationErrors
+            .ShouldContain(err => err.MemberNames.Any(m => m == nameof(CreateProductDto.NutriScore)));
     }
 
     [Fact]

@@ -15,6 +15,7 @@ public class UpdateProductDto
     [StringLength(ProductConsts.MaxBrandLength)]
     public string? Brand { get; set; }
 
+    [RegularExpression("^[A-Ea-e]?$", ErrorMessage = "NutriScore debe ser una letra de la A a la E.")]
     [StringLength(1)]
     public string? NutriScore { get; set; }
 
