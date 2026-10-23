@@ -10,6 +10,7 @@ namespace SmartPantry.Products;
 /// </summary>
 public class Product : FullAuditedAggregateRoot<Guid>
 {
+    /// <summary>Identifica al producto en el catálogo. No se modifica después de crearlo.</summary>
     public string BarCode { get; private set; } = string.Empty;
     public string Name { get; private set; } = string.Empty;
     public string? Brand { get; private set; }
@@ -31,10 +32,32 @@ public class Product : FullAuditedAggregateRoot<Guid>
         : base(id)
     {
         BarCode = Check.NotNullOrWhiteSpace(barCode?.Trim(), nameof(barCode), ProductConsts.MaxBarCodeLength);
-        Name = Check.NotNullOrWhiteSpace(name?.Trim(), nameof(name), ProductConsts.MaxNameLength);
+        Name = NormalizeName(name);
         Brand = NormalizeBrand(brand);
         NutriScore = NormalizeNutriScore(nutriScore);
         NovaGroup = ValidateNovaGroup(novaGroup);
+    }
+
+    /// <summary>
+    /// Modifica los datos editables. Valida y normaliza TODO antes de asignar nada:
+    /// si algún dato es inválido se lanza una excepción y el producto conserva su estado anterior.
+    /// </summary>
+    public void Update(string name, string? brand, string? nutriScore, int? novaGroup)
+    {
+        var newName = NormalizeName(name);
+        var newBrand = NormalizeBrand(brand);
+        var newNutriScore = NormalizeNutriScore(nutriScore);
+        var newNovaGroup = ValidateNovaGroup(novaGroup);
+
+        Name = newName;
+        Brand = newBrand;
+        NutriScore = newNutriScore;
+        NovaGroup = newNovaGroup;
+    }
+
+    private static string NormalizeName(string name)
+    {
+        return Check.NotNullOrWhiteSpace(name?.Trim(), nameof(name), ProductConsts.MaxNameLength);
     }
 
     private static string? NormalizeBrand(string? brand)
