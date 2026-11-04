@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SmartPantry.Authors;
 using SmartPantry.Books;
 using SmartPantry.Products;
+using SmartPantry.PantryItems;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
@@ -18,6 +19,7 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
+
 namespace SmartPantry.EntityFrameworkCore;
 
 [ReplaceDbContext(typeof(IIdentityDbContext))]
@@ -33,6 +35,8 @@ public class SmartPantryDbContext :
     public DbSet<Author> Authors { get; set; }
     public DbSet<Book> Books { get; set; }
     public DbSet<Product> Products { get; set; }
+    public DbSet<PantryItem> PantryItems { get; set; }
+    public DbSet<ExpirationWarning> ExpirationWarnings { get; set; }
 
     #region Entities from the modules
 

@@ -9,7 +9,7 @@ public class Product_Tests
     // ---------- TP05: creación ----------
 
     [Fact]
-    public void Should_Create_A_Valid_Product_And_Normalize_Text()
+    public void Debe_crear_un_producto_valido_y_normalizar_los_textos()
     {
         var id = Guid.NewGuid();
 
@@ -30,7 +30,7 @@ public class Product_Tests
     }
 
     [Fact]
-    public void Should_Allow_Missing_Optional_Data()
+    public void Debe_permitir_que_falten_los_datos_opcionales()
     {
         var product = new Product(Guid.NewGuid(), "123", "Producto", brand: "   ");
 
@@ -43,7 +43,7 @@ public class Product_Tests
     [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public void Should_Reject_Empty_BarCode(string? barCode)
+    public void Debe_rechazar_un_codigo_de_barras_vacio(string? barCode)
     {
         Assert.ThrowsAny<ArgumentException>(
             () => new Product(Guid.NewGuid(), barCode!, "Producto"));
@@ -53,14 +53,14 @@ public class Product_Tests
     [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public void Should_Reject_Empty_Name(string? name)
+    public void Debe_rechazar_un_nombre_vacio(string? name)
     {
         Assert.ThrowsAny<ArgumentException>(
             () => new Product(Guid.NewGuid(), "123", name!));
     }
 
     [Fact]
-    public void Should_Reject_Too_Long_BarCode()
+    public void Debe_rechazar_un_codigo_de_barras_demasiado_largo()
     {
         var tooLong = new string('1', ProductConsts.MaxBarCodeLength + 1);
 
@@ -72,7 +72,7 @@ public class Product_Tests
     [InlineData("F")]
     [InlineData("AB")]
     [InlineData("1")]
-    public void Should_Reject_Invalid_NutriScore(string nutriScore)
+    public void Debe_rechazar_un_nutriscore_invalido(string nutriScore)
     {
         Assert.ThrowsAny<ArgumentException>(
             () => new Product(Guid.NewGuid(), "123", "Producto", nutriScore: nutriScore));
@@ -81,7 +81,7 @@ public class Product_Tests
     [Theory]
     [InlineData(0)]
     [InlineData(5)]
-    public void Should_Reject_NovaGroup_Out_Of_Range(int novaGroup)
+    public void Debe_rechazar_un_novagroup_fuera_de_rango(int novaGroup)
     {
         Assert.ThrowsAny<ArgumentException>(
             () => new Product(Guid.NewGuid(), "123", "Producto", novaGroup: novaGroup));
@@ -90,7 +90,7 @@ public class Product_Tests
     // ---------- TP06: modificación ----------
 
     [Fact]
-    public void Update_With_Valid_Data_Keeps_Normalizations()
+    public void Modificar_con_datos_validos_conserva_las_normalizaciones()
     {
         var product = new Product(Guid.NewGuid(), "7790001234567", "Original", "Marca", "A", 1);
 
@@ -103,7 +103,7 @@ public class Product_Tests
     }
 
     [Fact]
-    public void Update_Does_Not_Change_The_BarCode()
+    public void Modificar_no_cambia_el_codigo_de_barras()
     {
         var product = new Product(Guid.NewGuid(), "7790001234567", "Original");
 
@@ -113,7 +113,7 @@ public class Product_Tests
     }
 
     [Fact]
-    public void Update_Can_Clear_Optional_Data()
+    public void Modificar_puede_vaciar_los_datos_opcionales()
     {
         var product = new Product(Guid.NewGuid(), "123", "Original", "Marca", "A", 2);
 
@@ -125,7 +125,7 @@ public class Product_Tests
     }
 
     [Fact]
-    public void Update_With_Invalid_Data_Is_Rejected_And_Keeps_The_Previous_State()
+    public void Modificar_con_datos_invalidos_se_rechaza_y_conserva_el_estado_anterior()
     {
         var product = new Product(Guid.NewGuid(), "123", "Original", "Marca", "A", 1);
 
@@ -142,7 +142,7 @@ public class Product_Tests
     [Theory]
     [InlineData("")]
     [InlineData("   ")]
-    public void Update_With_Empty_Name_Is_Rejected_And_Keeps_The_Previous_State(string name)
+    public void Modificar_con_nombre_vacio_se_rechaza_y_conserva_el_estado_anterior(string name)
     {
         var product = new Product(Guid.NewGuid(), "123", "Original", "Marca", "B", 3);
 
@@ -156,7 +156,7 @@ public class Product_Tests
     }
 
     [Fact]
-    public void Update_With_NovaGroup_Out_Of_Range_Keeps_The_Previous_State()
+    public void Modificar_con_novagroup_fuera_de_rango_conserva_el_estado_anterior()
     {
         var product = new Product(Guid.NewGuid(), "123", "Original", "Marca", "B", 3);
 
