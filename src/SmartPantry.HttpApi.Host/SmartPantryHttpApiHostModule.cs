@@ -39,6 +39,9 @@ using Volo.Abp.OpenIddict;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.Security.Claims;
+using System.Net.Http.Headers;
+using SmartPantry.ProductLookup;
+
 
 namespace SmartPantry;
 
@@ -84,6 +87,14 @@ public class SmartPantryHttpApiHostModule : AbpModule
                 serverBuilder.SetIssuer(new Uri(configuration["AuthServer:Authority"]!));
             });
         }
+        context.Services.AddHttpClient<IExternalProductCatalogClient, OpenFoodFactsProductCatalogClient>(client =>
+        {
+            client.BaseAddress = new Uri("https://world.openfoodfacts.org/api/v3/");
+            client.Timeout = TimeSpan.FromSeconds(15);
+            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("SmartPantry", "1.0"));
+            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("(+https://github.com/DS-2026-GrupoFLR/SmartPantry)"));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        });
     }
 
     public override void ConfigureServices(ServiceConfigurationContext context)
