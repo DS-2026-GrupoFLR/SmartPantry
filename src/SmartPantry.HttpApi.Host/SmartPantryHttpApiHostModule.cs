@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
@@ -15,6 +16,7 @@ using OpenIddict.Validation.AspNetCore;
 using OpenIddict.Server.AspNetCore;
 using SmartPantry.EntityFrameworkCore;
 using SmartPantry.MultiTenancy;
+using SmartPantry.PantryItems;
 using SmartPantry.HealthChecks;
 using Microsoft.OpenApi;
 using Volo.Abp;
@@ -24,6 +26,7 @@ using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Autofac;
+using Volo.Abp.BackgroundWorkers;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation.Urls;
@@ -39,9 +42,6 @@ using Volo.Abp.OpenIddict;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.Security.Claims;
-using System.Net.Http.Headers;
-using SmartPantry.ProductLookup;
-
 
 namespace SmartPantry;
 
@@ -87,14 +87,6 @@ public class SmartPantryHttpApiHostModule : AbpModule
                 serverBuilder.SetIssuer(new Uri(configuration["AuthServer:Authority"]!));
             });
         }
-        context.Services.AddHttpClient<IExternalProductCatalogClient, OpenFoodFactsProductCatalogClient>(client =>
-        {
-            client.BaseAddress = new Uri("https://world.openfoodfacts.org/api/v3/");
-            client.Timeout = TimeSpan.FromSeconds(15);
-            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("SmartPantry", "1.0"));
-            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("(+https://github.com/DS-2026-GrupoFLR/SmartPantry)"));
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        });
     }
 
     public override void ConfigureServices(ServiceConfigurationContext context)
@@ -114,7 +106,7 @@ public class SmartPantryHttpApiHostModule : AbpModule
             {
                 options.DisableTransportSecurityRequirement = true;
             });
-            
+
             Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders = ForwardedHeaders.XForwardedProto;
@@ -265,7 +257,7 @@ public class SmartPantryHttpApiHostModule : AbpModule
     }
 
 
-    public override void OnApplicationInitialization(ApplicationInitializationContext context)
+    public override async Task OnApplicationInitializationAsync(ApplicationInitializationContext context)
     {
         var app = context.GetApplicationBuilder();
         var env = context.GetEnvironment();
@@ -312,5 +304,9 @@ public class SmartPantryHttpApiHostModule : AbpModule
         app.UseAuditing();
         app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();
+
+        // RF-15: proceso periódico de vencimientos. Se registra aquí (y no en el módulo de Application)
+        // para que solo corra cuando la API está levantada y nunca durante las pruebas.
+        await context.AddBackgroundWorkerAsync<ExpirationWarningWorker>();
     }
 }
