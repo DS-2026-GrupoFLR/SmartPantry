@@ -1,0 +1,39 @@
+Archivo: src/SmartPantry.EntityFrameworkCore/EntityFrameworkCore/SmartPantryDbContext.cs
+(NO se reemplaza el archivo: se AGREGAN estas lineas. Si ya existen, no las dupliques.)
+
+1) Arriba, con los demas "using":
+   using SmartPantry.PantryItems;
+
+2) Junto a los otros DbSet:
+   public DbSet<PantryItem> PantryItems { get; set; }
+   public DbSet<ExpirationWarning> ExpirationWarnings { get; set; }
+
+3) Dentro de OnModelCreating, despues del bloque de Product:
+
+        builder.Entity<PantryItem>(b =>
+        {
+            b.ToTable(SmartPantryConsts.DbTablePrefix + "PantryItems", SmartPantryConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.Property(x => x.OwnerId).IsRequired();
+            b.Property(x => x.ProductId).IsRequired();
+            b.Property(x => x.Status).IsRequired();
+
+            // El producto debe existir; no se puede borrar un producto que esta en una despensa.
+            b.HasOne<Product>().WithMany().HasForeignKey(x => x.ProductId)
+                .IsRequired().OnDelete(DeleteBehavior.Restrict);
+
+            b.HasIndex(x => x.OwnerId);
+        });
+
+        builder.Entity<ExpirationWarning>(b =>
+        {
+            b.ToTable(SmartPantryConsts.DbTablePrefix + "ExpirationWarnings", SmartPantryConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.HasOne<PantryItem>().WithMany().HasForeignKey(x => x.PantryItemId)
+                .IsRequired().OnDelete(DeleteBehavior.Cascade);
+
+            // Clave logica estable: a lo sumo UNA advertencia por (item, tipo).
+            b.HasIndex(x => new { x.PantryItemId, x.Type }).IsUnique();
+        });
