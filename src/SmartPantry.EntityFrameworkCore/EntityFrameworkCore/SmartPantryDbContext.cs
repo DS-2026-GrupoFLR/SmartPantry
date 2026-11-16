@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SmartPantry.Authors;
 using SmartPantry.Books;
+using SmartPantry.PantryItems;
 using SmartPantry.Products;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -33,6 +34,8 @@ public class SmartPantryDbContext :
     public DbSet<Author> Authors { get; set; }
     public DbSet<Book> Books { get; set; }
     public DbSet<Product> Products { get; set; }
+    public DbSet<PantryItem> PantryItems { get; set; }
+    public DbSet<ExpirationWarning> ExpirationWarnings { get; set; }
 
     #region Entities from the modules
 
@@ -103,6 +106,34 @@ public class SmartPantryDbContext :
 
             // RF-08: no puede haber dos productos vigentes con el mismo código de barras.
             b.HasIndex(x => x.BarCode).IsUnique().HasFilter("[IsDeleted] = 0");
+        });
+
+        builder.Entity<PantryItem>(b =>
+        {
+            b.ToTable(SmartPantryConsts.DbTablePrefix + "PantryItems", SmartPantryConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.Property(x => x.OwnerId).IsRequired();
+            b.Property(x => x.ProductId).IsRequired();
+            b.Property(x => x.Status).IsRequired();
+
+            // El producto debe existir; no se puede borrar un producto que está en una despensa.
+            b.HasOne<Product>().WithMany().HasForeignKey(x => x.ProductId)
+                .IsRequired().OnDelete(DeleteBehavior.Restrict);
+
+            b.HasIndex(x => x.OwnerId);
+        });
+
+        builder.Entity<ExpirationWarning>(b =>
+        {
+            b.ToTable(SmartPantryConsts.DbTablePrefix + "ExpirationWarnings", SmartPantryConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.HasOne<PantryItem>().WithMany().HasForeignKey(x => x.PantryItemId)
+                .IsRequired().OnDelete(DeleteBehavior.Cascade);
+
+            // Clave lógica estable: a lo sumo UNA advertencia por (ítem, tipo).
+            b.HasIndex(x => new { x.PantryItemId, x.Type }).IsUnique();
         });
     }
 }

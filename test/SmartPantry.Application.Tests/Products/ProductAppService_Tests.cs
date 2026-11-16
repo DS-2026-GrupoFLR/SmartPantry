@@ -24,7 +24,7 @@ public abstract class ProductAppService_Tests<TStartupModule> : SmartPantryAppli
     // ---------- TP05: crear y consultar ----------
 
     [Fact]
-    public async Task Should_Create_And_Then_Get_A_Product_By_Id()
+    public async Task Debe_crear_y_luego_consultar_un_producto_por_id()
     {
         var created = await _productAppService.CreateAsync(new CreateProductDto
         {
@@ -50,7 +50,7 @@ public abstract class ProductAppService_Tests<TStartupModule> : SmartPantryAppli
     }
 
     [Fact]
-    public async Task Should_Not_Create_A_Product_Without_BarCode()
+    public async Task No_debe_crear_un_producto_sin_codigo_de_barras()
     {
         var exception = await Assert.ThrowsAsync<AbpValidationException>(async () =>
         {
@@ -66,7 +66,7 @@ public abstract class ProductAppService_Tests<TStartupModule> : SmartPantryAppli
     }
 
     [Fact]
-    public async Task Should_Not_Create_A_Product_Without_Name()
+    public async Task No_debe_crear_un_producto_sin_nombre()
     {
         var exception = await Assert.ThrowsAsync<AbpValidationException>(async () =>
         {
@@ -82,7 +82,7 @@ public abstract class ProductAppService_Tests<TStartupModule> : SmartPantryAppli
     }
 
     [Fact]
-    public async Task Should_Not_Create_Two_Products_With_The_Same_BarCode()
+    public async Task No_debe_crear_dos_productos_con_el_mismo_codigo_de_barras()
     {
         await _productAppService.CreateAsync(new CreateProductDto
         {
@@ -103,7 +103,7 @@ public abstract class ProductAppService_Tests<TStartupModule> : SmartPantryAppli
     }
 
     [Fact]
-    public async Task Should_Throw_EntityNotFound_For_A_Missing_Id()
+    public async Task Debe_lanzar_no_encontrado_para_un_id_inexistente()
     {
         await Assert.ThrowsAnyAsync<EntityNotFoundException>(async () =>
         {
@@ -114,7 +114,7 @@ public abstract class ProductAppService_Tests<TStartupModule> : SmartPantryAppli
     // ---------- TP06: lista, modificación y eliminación ----------
 
     [Fact]
-    public async Task Should_Register_List_Update_Get_And_Delete_A_Product()
+    public async Task Debe_registrar_listar_modificar_consultar_y_eliminar_un_producto()
     {
         // registrar
         var created = await _productAppService.CreateAsync(new CreateProductDto
@@ -162,7 +162,7 @@ public abstract class ProductAppService_Tests<TStartupModule> : SmartPantryAppli
     }
 
     [Fact]
-    public async Task Should_List_Products_With_Paging_And_Sorting()
+    public async Task Debe_listar_productos_con_paginacion_y_orden()
     {
         foreach (var (barCode, name) in new[] { ("9000000000003", "Cacao"), ("9000000000001", "Arroz"), ("9000000000002", "Bizcochos") })
         {
@@ -192,7 +192,7 @@ public abstract class ProductAppService_Tests<TStartupModule> : SmartPantryAppli
     }
 
     [Fact]
-    public async Task Should_Not_Update_A_Product_With_Invalid_Data_And_Keep_The_Previous_State()
+    public async Task No_debe_modificar_un_producto_con_datos_invalidos_y_debe_conservar_el_estado_anterior()
     {
         var created = await _productAppService.CreateAsync(new CreateProductDto
         {
@@ -226,7 +226,7 @@ public abstract class ProductAppService_Tests<TStartupModule> : SmartPantryAppli
     }
 
     [Fact]
-    public async Task Should_Not_Create_A_Product_With_Invalid_NutriScore()
+    public async Task No_debe_crear_un_producto_con_nutriscore_invalido()
     {
         var exception = await Assert.ThrowsAsync<AbpValidationException>(async () =>
         {
@@ -243,7 +243,7 @@ public abstract class ProductAppService_Tests<TStartupModule> : SmartPantryAppli
     }
 
     [Fact]
-    public async Task Should_Not_Update_A_Product_Without_Name()
+    public async Task No_debe_modificar_un_producto_sin_nombre()
     {
         var created = await _productAppService.CreateAsync(new CreateProductDto
         {
@@ -261,7 +261,7 @@ public abstract class ProductAppService_Tests<TStartupModule> : SmartPantryAppli
     }
 
     [Fact]
-    public async Task Should_Throw_EntityNotFound_When_Updating_A_Missing_Product()
+    public async Task Debe_lanzar_no_encontrado_al_modificar_un_producto_inexistente()
     {
         await Assert.ThrowsAnyAsync<EntityNotFoundException>(async () =>
         {
@@ -270,7 +270,7 @@ public abstract class ProductAppService_Tests<TStartupModule> : SmartPantryAppli
     }
 
     [Fact]
-    public async Task Should_Allow_Registering_Again_A_BarCode_Of_A_Deleted_Product()
+    public async Task Debe_permitir_registrar_de_nuevo_el_codigo_de_barras_de_un_producto_eliminado()
     {
         var first = await _productAppService.CreateAsync(new CreateProductDto
         {
