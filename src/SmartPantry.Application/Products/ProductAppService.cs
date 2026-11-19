@@ -4,6 +4,7 @@ using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SmartPantry.Products;
 
@@ -13,6 +14,7 @@ namespace SmartPantry.Products;
 /// Adaptados: CreateAsync y UpdateAsync, porque intervienen reglas del dominio
 /// (normalización, validación y código de barras único).
 /// </summary>
+[Authorize]
 public class ProductAppService :
     CrudAppService<
         Product,
