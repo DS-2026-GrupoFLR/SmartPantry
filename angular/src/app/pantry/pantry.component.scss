@@ -1,0 +1,37 @@
+// En pantallas angostas la tabla se apila (una "tarjeta" por ítem) para que la página
+// no tenga desplazamiento horizontal.
+@media (max-width: 767.98px) {
+  .pantry-table {
+    thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+
+    tbody tr {
+      display: block;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--bs-border-color);
+    }
+
+    tbody td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.25rem 0.5rem;
+      border: 0;
+      text-align: end;
+      overflow-wrap: anywhere;
+
+      &::before {
+        content: attr(data-label);
+        flex: 0 0 auto;
+        font-weight: 600;
+        text-align: start;
+      }
+    }
+  }
+}
