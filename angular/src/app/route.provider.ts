@@ -16,6 +16,13 @@ function configureRoutes() {
         layout: eLayoutType.application,
       },
       {
+        path: '/pantry',
+        name: '::Menu:Pantry',
+        iconClass: 'fas fa-box-open',
+        order: 2,
+        layout: eLayoutType.application,
+      },
+      {
         path: '/books',
         name: '::Menu:Books',
         iconClass: 'fas fa-book',

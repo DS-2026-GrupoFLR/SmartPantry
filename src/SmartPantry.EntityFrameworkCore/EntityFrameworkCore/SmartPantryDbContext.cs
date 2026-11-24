@@ -116,6 +116,8 @@ public class SmartPantryDbContext :
             b.Property(x => x.OwnerId).IsRequired();
             b.Property(x => x.ProductId).IsRequired();
             b.Property(x => x.Status).IsRequired();
+            b.Property(x => x.Quantity).HasPrecision(18, 3);
+            b.Property(x => x.Unit).HasMaxLength(PantryConsts.MaxUnitLength);
 
             // El producto debe existir; no se puede borrar un producto que está en una despensa.
             b.HasOne<Product>().WithMany().HasForeignKey(x => x.ProductId)

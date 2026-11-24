@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 namespace SmartPantry.ProductLookup;
 
 // Decisión transitoria del TP07: consulta sin login. No es la política final de autorización.
-[AllowAnonymous]
+[Authorize]
 public class ProductLookupAppService : SmartPantryAppService, IProductLookupAppService
 {
     private readonly IExternalProductCatalogClient _catalogClient;
@@ -25,7 +25,7 @@ public class ProductLookupAppService : SmartPantryAppService, IProductLookupAppS
             {
                 return new ProductLookupResultDto
                 {
-                    Status = ProductLookupStatus.NotFound,
+                    Status = ProductLookupStatus.NotFound,  
                     Message = "No se encontró un producto con ese código de barras."
                 };
             }
